@@ -16,6 +16,12 @@ app.use(
   })
 );
 
+// database
+const db = require("./models");
+db.sequelize.sync().then(() => {
+  console.log('DB running!');
+});
+
 app.get('/', function(req, res) {
   res.send('Runing api swept!')
 });
