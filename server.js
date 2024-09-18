@@ -17,7 +17,7 @@ app.use(
 );
 
 // database
-const db = require("./models");
+const db = require("./app/models");
 db.sequelize.sync().then(() => {
   console.log('DB running!');
 });
@@ -26,7 +26,7 @@ app.get('/', function(req, res) {
   res.send('Runing api swept!')
 });
 
-require('./routes/auth.routes')(app);
+require('./app/routes/auth.routes')(app);
 
 app.listen(PORT, ()=> {
   console.log(`Server is running on port ${PORT}!`);
