@@ -4,7 +4,7 @@
   "description": "API Rest swept",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "standard"
   },
   "keywords": [
     "express",
@@ -15,9 +15,14 @@
   "author": "jesmqz",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cookie-session": "^2.1.0",
     "express": "^4.21.0",
     "mysql2": "^3.11.3",
     "sequelize": "^6.37.3"
+  },
+  "devDependencies": {
+    "debug": "^4.3.7",
+    "standard": "^17.1.2"
   }
 }

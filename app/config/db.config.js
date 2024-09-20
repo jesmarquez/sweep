@@ -1,9 +1,9 @@
 module.exports = {
-  HOST: "localhost",
-  USER: "developer",
-  PASSWORD: "Jesus@12502219",
-  DB: "swept",
-  dialect: "mysql",
+  HOST: 'localhost',
+  USER: 'developer',
+  PASSWORD: 'Jesus@12502219',
+  DB: 'swept',
+  dialect: 'mysql',
   pool: {
     max: 5,
     min: 0,
