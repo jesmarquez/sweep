@@ -1,25 +1,55 @@
-const db = require("../models");
-const User = db.user;
-const Role = db.role;
+const db = require('../models')
+const config = require('../config/auth.config')
 
-const Op = db.Sequelize.Op;
+const User = db.user
+const Role = db.role
 
-const bcrypt = require("bcryptjs");
+const Op = db.Sequelize.Op
 
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 exports.signin = async (req, res) => {
 
-  const user = req.body;
-  console.log(user);
-
-  if (user.username === 'jesmqz' && user.password === '123456') {
-    return res.status(200).send({
-      id: 900,
-      username: user.username,
-      email: 'jesmqz@gmail.com'
+  try {
+    const user = await User.findOne({
+      where: {
+        username: req.body.username,
+      },
     })
-  } else {
-    res.status(401).send({ message: 'User not exist or password does not match!'})
+
+    if (!user) {
+      return res.status(404).send({ message: 'User Not found.' })
+    }
+
+    const passwordIsValid = bcrypt.compareSync(
+      req.body.password,
+      user.password
+    )
+
+    if (!passwordIsValid) {
+      return res.status(401).send({
+        message: 'Invalid Password!',
+      })
+    }
+
+    const token = jwt.sign({ id: user.id },
+      config.secret,
+      {
+      algorithm: 'HS256',
+      allowInsecureKeySizes: true,
+      expiresIn: 86400, // 24 hours
+      })
+
+    req.session.token = token
+
+    return res.status(200).send({
+      id: user.id,
+      username: user.username,
+      email: user.email
+    })
+  } catch (error) {
+    return res.status(500).send({ message: error.message })
   }
 }
 
@@ -31,12 +61,12 @@ exports.signup = async (req, res) => {
       username: req.body.username,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 8),
-    });
+    })
 
-    res.send({ message: "User registered successfully!" });
+    res.send({ message: 'User registered successfully!' })
 
 
   } catch (error) {
-    res.status(500).send({ message: error.message });
+    res.status(500).send({ message: error.message })
   }
 }
