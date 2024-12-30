@@ -58,7 +58,7 @@ exports.signup = async (req, res) => {
   // Save User to Database
   try {
     const user = await User.create({
-      username: req.body.username,
+      username: req.body.email,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 8),
     })
@@ -70,3 +70,14 @@ exports.signup = async (req, res) => {
     res.status(500).send({ message: error.message })
   }
 }
+
+exports.signout = async (req, res) => {
+  try {
+    req.session = null;
+    return res.status(200).send({
+      message: "You've been signed out!"
+    });
+  } catch (err) {
+    this.next(err);
+  }
+};

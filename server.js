@@ -15,7 +15,7 @@ app.use(
     sameSite: 'strict'
   })
 )
-
+// https://www.bezkoder.com/node-js-angular-17-jwt-auth/
 // database
 const db = require('./app/models')
 db.sequelize.sync().then(() => {
